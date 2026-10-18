@@ -1,0 +1,39 @@
+# Local reports, notes, credentials, and test artifacts
+/local/
+/reports/
+/private/
+*.local.*
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.pfx
+*.p12
+*.credential
+*.log
+*.etl
+*.evtx
+
+# Backup images, virtual machines, and disk images never belong in Git
+*.sparsebundle/
+*.backupbundle/
+*.sparseimage
+*.dmg
+*.vhd
+*.vhdx
+*.avhd
+*.avhdx
+*.vmdk
+*.qcow2
+*.iso
+*.vmcx
+*.vmrs
+*.vmgs
+
+# Editor and platform noise
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+__pycache__/
