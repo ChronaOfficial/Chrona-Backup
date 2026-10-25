@@ -11,6 +11,8 @@ Two approaches remain open:
 
 No failure cause or replacement architecture has been proven. Do not begin by erasing history or assuming the HDD is defective.
 
+The 2026-10-25 documentation review in docs/PLAN.md makes native Apple backup and restore compatibility the acceptance requirement. Read it before choosing packages or writing a keep-awake wrapper. Samba has had Time Machine-specific regressions; verify the actual maintained package and fixes. The storage budget must preserve existing history, and full recovery remains untested until migration to a separate compatible target succeeds.
+
 ## First Windows session
 
 1. Read AGENTS.md and the script usage notes. Confirm the checkout is current and identify the authorized project folder.
@@ -18,7 +20,7 @@ No failure cause or replacement architecture has been proven. Do not begin by er
 3. Record whether Hyper-V telemetry is enabled, disabled, absent, or inconclusive. An active hypervisor can change CPU virtualization reporting. Do not enable features during assessment.
 4. Establish a storage plan with the user using system metadata only. The privacy-preserving report does not map volumes to physical disks or identify the correct backup target; do not guess a target from array order or size.
 5. Confirm whether stream reads/recordings and backup writes use the same physical device without examining media files or process command lines. Ask the user for that relationship if necessary.
-6. Prepare a short comparison of repair versus a Samba VM, required capacity, maintenance interruptions, rollback, and tests. Keep machine-specific mappings and sensitive details in ignored local notes.
+6. Prepare a short comparison of repair versus a Samba VM, required capacity, maintenance interruptions, rollback, and tests. Account for both histories and free-space reserves before proposing new storage. Keep machine-specific mappings and sensitive details in ignored local notes.
 7. Update STATUS.md with a sanitized summary and the next action. Commit only reviewed project files on a task branch and open a pull request. Tell the user which update the Mac-side chat should read.
 
 ## Next Mac session

@@ -4,6 +4,8 @@ Shared project for building dependable, unattended Mac backups to an existing Wi
 
 **Status: planning and diagnostics only. No replacement backup server has been installed or validated.**
 
+The backup engine will remain Apple's Time Machine, with recovery through Apple's tools. The [documentation-reviewed plan](docs/PLAN.md) covers native SMB requirements, capacity and rollback, sleep/update limits, completed-backup monitoring, and a separate full-recovery test. A keep-awake utility alone does not satisfy the project.
+
 ## Start on the Windows PC
 
 Clone this repository, open its folder in the local assistant, and give it this instruction:
