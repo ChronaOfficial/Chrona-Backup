@@ -1,5 +1,9 @@
 # Windows-side handoff
 
+## Latest Windows checkpoint
+
+See `codex/windows-omv-setup` and the latest direction in docs/PLAN.md. The user wants to retain and, if feasible, continue the existing Time Machine history while addressing unreliable network backups. The earlier fresh-destination sequence is conditional on resolving that reuse question; no replacement archive is approved by assumption. Preparation and installer verification are complete, but no installation or backup change has run. Host interruptions remain deferred to an explicitly approved maintenance window. Detailed host and storage findings remain local and must not be copied into Git.
+
 ## Goal and working arrangement
 
 Keep the existing Windows streaming workload running while establishing reliable, unattended Time Machine backups from a Mac. The desired experience is that backups happen automatically during ordinary use. The repository is the handoff between local chats on the two computers.
