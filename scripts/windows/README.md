@@ -1,5 +1,24 @@
 # Read-only Windows readiness summary
 
+## Optional outer-container check
+
+`Get-BackupContainerSummary.ps1 -ContainerParent <explicit-folder>` is a separate,
+opt-in check, not part of host readiness. Obtain explicit approval for this narrow
+exception to AGENTS.md before execution. It searches only immediate children for
+disk-image extensions; matching names are used in memory but never printed or
+saved. If exactly one bundle is found, it reads at most 64 KiB of `Info.plist` and
+returns only container type, virtual capacity, band size, backing-store version,
+and a Boolean standard-type result. It never opens image bands, mounts an image,
+reads backed-up personal contents, or changes storage. Ambiguous, inaccessible,
+binary, or otherwise unsupported metadata yields an inconclusive result.
+
+This does not verify backup health or promise that Time Machine can continue the
+archive. Keep its output local. Its syntax and one synthetic allowlist fixture
+were checked, and it completed one approved Windows execution. Do not treat this
+as permission for repeated diagnostics or broader inspection.
+
+## Host readiness
+
 `Get-HostReadiness.ps1` runs on Windows PowerShell 5.1 or PowerShell 7 on Windows. Review the code before its first execution. It has been prepared on macOS and has not yet been executed against Windows providers.
 
 ## Scope

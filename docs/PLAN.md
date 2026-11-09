@@ -12,7 +12,21 @@ Apple documents [inheritance of history by a replacement Mac](https://support.ap
 
 OMV documents [mounting existing NTFS filesystems](https://docs.openmediavault.org/en/8.x/administration/storage/filesystems.html), but filesystem mount support alone does not prove the required Time Machine/Samba behavior on the existing archive. Hyper-V [physical-disk attachment](https://learn.microsoft.com/en-us/powershell/module/hyper-v/set-vmharddiskdrive) requires an offline host disk. That would change storage ownership and remove direct host access, and is not part of the currently authorized VHDX layout. Do not attempt it, attach existing storage to an installer, or format the source disk as a shortcut.
 
-Current conclusion: preserving history is the intended outcome; automatic adoption by OMV remains unverified. There is no confirmed backup-corruption diagnosis or established need to start a new history. Further deployment must resolve this distinction rather than silently create a fresh archive.
+### Result of the bounded reuse assessment
+
+After explicit user approval, a single Windows metadata-only check identified one standard Apple sparsebundle and read only allowlisted outer format fields. No image bands, backed-up personal contents, backup dates, or identifiers were collected. No image was mounted or changed. Private measurements remain local. This establishes the container type, not archive integrity or successful Time Machine recognition.
+
+**Conclusion:** reuse of the existing archive is technically plausible; a fresh history is not required merely because the SMB server changes. This is an engineering inference from the container type and documented server/storage capabilities, not a verified repair. There is no proven cause for the existing failed updates.
+
+| Storage approach | Reuse implication |
+| --- | --- |
+| Earlier new-data-VHDX layout | Does not automatically include the existing archive; preserving history would require a deliberate complete-image migration and sufficient space. |
+| Existing physical disk assigned exclusively to OMV | Candidate for in-place reuse: mount its existing NTFS filesystem and share the folder containing the intact sparsebundle. No reformat or conversion is inherent in this design. The disk must be offline to Windows while assigned to the guest, and the VM's own OS/configuration must be stored on a different host disk. This changes the earlier storage-ownership plan and is not authorized for execution yet. |
+| Copy intact archive to Linux-owned storage | Candidate for testing continuation without risking the original history, but requires separately agreed destination space and a complete, consistent copy. No other disk has been selected or accessed for this purpose. |
+
+OMV's [NTFS backend](https://github.com/openmediavault/openmediavault/blob/ae01ca2a4d857f4f8763121b0ab1a10e700e40b1/deb/openmediavault/usr/share/php/openmediavault/system/filesystem/backend/ntfs.inc) supports existing mounts. Its [Samba template](https://github.com/openmediavault/openmediavault/blob/ae01ca2a4d857f4f8763121b0ab1a10e700e40b1/deb/openmediavault/srv/salt/omv/deploy/samba/files/shares.j2) enables `fruit`, `streams_xattr`, and Time Machine capability for the share; it does not adopt or repair an archive. These are upstream-source observations, not installed-package validation. [NTFS-3G documents extended-attribute support](https://github.com/tuxera/ntfs-3g/wiki/Using-Extended-Attributes), while [Samba documents its own alternate-stream mapping](https://www.samba.org/samba/docs/current/man-html/vfs_streams_xattr.8.html). Consequently, NTFS itself is not a categorical blocker, but the actual driver, permissions, stream metadata, and durability behavior must be validated rather than assumed compatible with Windows-written data.
+
+The remaining proof is narrow: in an approved maintenance window and preferably against a protected copy, confirm the existing history is recognized, complete an incremental backup into that same history, and restore a synthetic file. Recognition alone is insufficient. Stop on any request to erase, replace, repair, or start a new history. No ownership handoff, identity reassociation, rename, filesystem repair, or writable test is authorized by this assessment. The user requested no further broad diagnostics.
 
 ## Recommended implementation: established NAS software
 

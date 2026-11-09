@@ -2,7 +2,7 @@
 
 ## Current phase
 
-Windows-side preparation is complete up to the unresolved storage plan. The user wants reliable ongoing Time Machine backups while retaining and, if feasible, continuing the existing history. Evaluate reuse before proceeding with the earlier fresh-destination sequence. The official OMV installer was downloaded and verified, but no server was installed. The user explicitly chose preparation only until a maintenance window: do not enable Windows features, reboot, or change host networking yet.
+The bounded reuse assessment found a standard Apple sparsebundle. In-place OMV hosting is technically plausible through exclusive disk ownership, but continued backups and preservation of history remain untested; this is not a confirmed fix. See docs/PLAN.md for the evidence and storage implications. The user explicitly requested no stream interruption or existing-backup changes. No server was installed and no host configuration changed.
 
 ## Completed
 
@@ -32,10 +32,12 @@ Two independent reviews checked the updated requirements against the source docu
 - Latest direction: preserve the existing history and evaluate continuing it while addressing unreliable network backups. A new server does not itself establish that the existing backup is corrupt or must be discarded. Reuse remains unverified; no new backup creation, image reassociation, migration, deletion, or repair has been attempted.
 - Downloaded the official OMV 8.3.1 AMD64 ISO into ignored local storage. Its SHA-256 matches the value published on the official OMV download page. It has not been booted or installed. See the preparation checkpoint in docs/PLAN.md.
 - The user selected preparation only, with host interruption deferred to a future maintenance window. That window has not been scheduled or approved.
+- Subsequently, the user authorized only a small outer-container metadata check. It found one standard sparsebundle; it did not mount the archive or read personal backup contents. The collector passed a syntax check and one synthetic allowlist test before that one execution. Details and measurements remain local.
+- Source review established an in-place hosting candidate using an existing NTFS filesystem with exclusive VM disk ownership. Actual Time Machine continuation, stream-metadata compatibility, backup integrity, and restoration remain untested. Diagnostics stopped at the requested bounded check.
 
 ## Next action
 
-Continue from `codex/windows-omv-setup`. Resolve a concrete history-preserving storage/reuse path before fresh-destination provisioning; see the latest direction at the top of docs/PLAN.md. Existing backup verification, server compatibility, capacity, and successful incremental/restore tests remain distinct requirements. Do not begin broad Mac diagnostics, inspect personal contents, or perform adoption commands under this preparation checkpoint. Host interruptions still require an explicitly approved maintenance window. The repository coordinates files; it does not provide remote execution on either computer.
+Continue from `codex/windows-omv-setup`. Present the exclusive-disk hosting option and a protected-copy validation option, then agree storage ownership, rollback protection, and a maintenance window before any writable test. Do not continue broad diagnostics or infer permission to mount, repair, rename, or take over the existing disk. No fresh archive should be created by assumption. The repository coordinates files; it does not provide remote execution on either computer.
 
 ## Decisions still needed
 
