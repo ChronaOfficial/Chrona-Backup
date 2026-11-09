@@ -10,7 +10,7 @@ The recommended implementation is OpenMediaVault 8 in a small VM on the existing
 
 Clone this repository, open its folder in the local assistant, and give it this instruction:
 
-> Read AGENTS.md, HANDOFF.md, STATUS.md, and the OpenMediaVault deployment sequence in docs/PLAN.md. Prepare the native Time Machine server on the existing Windows PC using established OMV software. Focus on the exact installation prerequisites: chosen storage and capacity, Hyper-V availability, existing LAN switch, and any required maintenance window. Do not begin another broad diagnostic exercise. Do not inspect personal files, their names, or their contents. Keep the live stream running. Prepare the exact changes for the user's local deployment instruction; do not infer permission to interrupt the host or delete old backups from this handoff.
+> Read AGENTS.md, HANDOFF.md, STATUS.md, and the OpenMediaVault deployment sequence in docs/PLAN.md. Implement the authorized native Time Machine server on this Windows PC using OMV 8, keeping my internal backup HDD in place. Establish only the necessary installation inputs and proceed with setup. Do not begin another broad diagnostic exercise or inspect personal files. Keep the live stream running; ask before a host reboot or network interruption. Make any necessary old-backup deletion concrete before acting. Configure automatic startup and a native Time Machine share, then record the Mac-side connection and recovery steps without committing credentials or host identifiers.
 
 The initial report script is [Get-HostReadiness.ps1](scripts/windows/Get-HostReadiness.ps1). Its [usage notes](scripts/windows/README.md) explain exactly what it reads. It is not an installer and does not contact the network.
 

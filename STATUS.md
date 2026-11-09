@@ -2,7 +2,7 @@
 
 ## Current phase
 
-OpenMediaVault 8 VM deployment recommended and concrete installation handoff prepared. Exact Windows storage, capacity, Hyper-V, and LAN-switch inputs remain outstanding. No backup repair, server installation, storage allocation, or configuration change has been performed by this project.
+OpenMediaVault 8 VM deployment authorized by the user; concrete installation handoff prepared. Exact Windows storage, capacity, Hyper-V, and LAN-switch inputs remain outstanding. No backup repair, server installation, storage allocation, or configuration change has been performed by this project.
 
 ## Completed
 
@@ -25,7 +25,7 @@ Two independent reviews checked the updated requirements against the source docu
 
 ## Next action
 
-Windows-side chat: read the deployment sequence at the top of docs/PLAN.md. Establish only the necessary installation inputs and prepare the OMV VM/storage setup for local execution. Do not restart broad diagnostics. Keep paths, drive letters, mappings, and credentials local. Schedule any required reboot or network interruption, and make any old-backup removal target concrete before deletion. The repository coordinates files; it does not provide remote execution on the PC.
+Windows-side chat: pull `codex/omv-server-setup`, read the updated authorized phase in AGENTS.md and deployment sequence at the top of docs/PLAN.md, establish the necessary local installation inputs, and implement the OMV VM/storage setup. Do not restart broad diagnostics. Keep paths, drive letters, mappings, and credentials local. Schedule any required reboot or network interruption, and make any old-backup removal target concrete before deletion. The repository coordinates files; it does not provide remote execution on the PC.
 
 ## Decisions still needed
 

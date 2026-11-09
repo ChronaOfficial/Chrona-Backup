@@ -36,4 +36,8 @@ Deliver stable, automatic Time Machine backups using an existing Windows PC, wit
 
 ## Current authorized phase
 
-Prepare and review the project, perform only scoped system assessment on the Windows PC when the user starts that local task, and propose the storage/repair/migration plan. This scaffold is not authorization to install a server, allocate disks, change networking, or restart either computer.
+As of 2026-11-09 the user has authorized setting up the backup solution and will pull this repository on the Windows PC for local implementation. Implement the OpenMediaVault 8 VM and native Time Machine destination described in docs/PLAN.md, using the existing internal Windows HDD. Confirm the exact local storage location and required capacity before allocating new virtual disks. Perform only the installation prerequisite checks actually needed; do not restart broad Mac diagnostics or speculative benchmarking.
+
+This authorizes installation and configuration of the new VM/server in the local Windows task. It does not authorize interrupting the live stream, rebooting the host, or changing host networking in a way that interrupts it without explicit approval for that interruption. Use existing suitable networking where available. Keep credentials and host-specific inputs local.
+
+The user has also allowed deleting the old backup if necessary for the replacement. This is an exception to the default history-preservation plan, not a request to erase it now. Identify the exact backup target and make the capacity/deletion plan concrete and reviewable before exercising that authorization. Do not erase other data or reformat the physical Windows disk by inference. A successful backup and restore remain necessary before claiming the new service works.
