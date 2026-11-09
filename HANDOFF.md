@@ -15,6 +15,10 @@ The 2026-10-25 documentation review in docs/PLAN.md makes native Apple backup an
 
 ## First Windows session
 
+**2026-11-09 direction:** prioritize the concrete OpenMediaVault 8 VM deployment sequence at the top of docs/PLAN.md. The user wants an established solution and has stopped the open-ended diagnostic path. The numbered assessment steps below are background guidance, not a mandatory investigation before deployment. Collect only the installation inputs actually needed, within the existing privacy scope. No more Mac troubleshooting queries are authorized by this handoff. The prior Mac metadata attempt was inconclusive and provides no failure diagnosis.
+
+Keep the HDD inside Windows and place the VM's data VHDX on the explicitly chosen volume. Do not attach that data VHDX or any physical host disk to the OMV installer; install with only the new small VM system disk attached. Selecting a fresh native network share in Time Machine replaces the manual image attachment workflow. The exact storage/deletion plan and any host interruption must still be deliberate, local actions.
+
 1. Read AGENTS.md and the script usage notes. Confirm the checkout is current and identify the authorized project folder.
 2. Explain the allowlisted system fields. Run the readiness script locally in the user's scoped assessment, without saving or publishing raw output through Git. Start without storage/network switches if those fields have not been agreed for that session.
 3. Record whether Hyper-V telemetry is enabled, disabled, absent, or inconclusive. An active hypervisor can change CPU virtualization reporting. Do not enable features during assessment.

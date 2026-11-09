@@ -2,15 +2,15 @@
 
 Shared project for building dependable, unattended Mac backups to an existing Windows PC while preserving its streaming workload.
 
-**Status: planning and diagnostics only. No replacement backup server has been installed or validated.**
+**Status: deployment preparation. No replacement backup server has been installed or validated.**
 
-The backup engine will remain Apple's Time Machine, with recovery through Apple's tools. The [documentation-reviewed plan](docs/PLAN.md) covers native SMB requirements, capacity and rollback, sleep/update limits, completed-backup monitoring, and a separate full-recovery test. A keep-awake utility alone does not satisfy the project.
+The recommended implementation is OpenMediaVault 8 in a small VM on the existing Windows PC, with backup storage in a VHDX on the internal HDD. Apple's Time Machine remains the backup engine. The [deployment sequence](docs/PLAN.md) explains the native network destination, storage ownership, installation order, and recovery requirements. No custom backup application is needed.
 
 ## Start on the Windows PC
 
 Clone this repository, open its folder in the local assistant, and give it this instruction:
 
-> Read AGENTS.md, HANDOFF.md, and STATUS.md. Continue the Windows assessment described there. Work only within the documented scope. Do not inspect personal files, their names, or their contents. Keep the live stream running. Begin with the scoped system-readiness report and a storage plan; do not install, reconfigure networking, restart, or modify existing backups yet.
+> Read AGENTS.md, HANDOFF.md, STATUS.md, and the OpenMediaVault deployment sequence in docs/PLAN.md. Prepare the native Time Machine server on the existing Windows PC using established OMV software. Focus on the exact installation prerequisites: chosen storage and capacity, Hyper-V availability, existing LAN switch, and any required maintenance window. Do not begin another broad diagnostic exercise. Do not inspect personal files, their names, or their contents. Keep the live stream running. Prepare the exact changes for the user's local deployment instruction; do not infer permission to interrupt the host or delete old backups from this handoff.
 
 The initial report script is [Get-HostReadiness.ps1](scripts/windows/Get-HostReadiness.ps1). Its [usage notes](scripts/windows/README.md) explain exactly what it reads. It is not an installer and does not contact the network.
 

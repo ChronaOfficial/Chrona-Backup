@@ -2,7 +2,7 @@
 
 ## Current phase
 
-Bootstrap and documentation-based compatibility review prepared. Windows assessment pending. No backup repair, server installation, storage allocation, or configuration change has been performed by this project.
+OpenMediaVault 8 VM deployment recommended and concrete installation handoff prepared. Exact Windows storage, capacity, Hyper-V, and LAN-switch inputs remain outstanding. No backup repair, server installation, storage allocation, or configuration change has been performed by this project.
 
 ## Completed
 
@@ -11,6 +11,7 @@ Bootstrap and documentation-based compatibility review prepared. Windows assessm
 - Explicitly left architecture, target storage, and maintenance scheduling undecided.
 - Reviewed Apple Time Machine destination/recovery documentation and its archived SMB server specification, Samba's implementation and relevant regression notes, and Microsoft's power/update/storage guidance.
 - Expanded docs/PLAN.md with native compatibility requirements, a capacity/rollback budget, bounded power-helper requirements, truthful completion monitoring, and a full migration gate distinct from discovery or file restores.
+- Researched an established server implementation: OMV 8 exposes native Time Machine support in its SMB interface and uses Debian-maintained Samba. Added the concrete VM installation sequence and the rule to expose only the new VM system disk to the ISO installer.
 
 ## Validation status
 
@@ -20,13 +21,15 @@ Static review passed, including an independent review of the allowlisted PowerSh
 
 Two independent reviews checked the updated requirements against the source documentation and privacy/streaming boundaries. Relative links in the four changed documents resolve, and the Git whitespace check passed. These are documentation checks only.
 
+2026-11-09, Mac side: one approved, filtered metadata attempt did not return usable destination information and was stopped. It does not establish a backup failure cause. The user redirected work to researching and preparing an established backup server; no more live troubleshooting queries were run. The draft collector was removed and is not a deliverable. Current research distinguishes manually mounting a backup image from selecting a native Time Machine network destination. No installation or backup/restore validation has run.
+
 ## Next action
 
-Windows-side chat: read AGENTS.md, HANDOFF.md, and the updated docs/PLAN.md, run the agreed scoped assessment, and return a sanitized repair-versus-native-server proposal through a task branch and pull request. Resolve space for preserved history and a new backup before proposing a migration. The Mac-side chat must not infer readiness from unused CPU capacity.
+Windows-side chat: read the deployment sequence at the top of docs/PLAN.md. Establish only the necessary installation inputs and prepare the OMV VM/storage setup for local execution. Do not restart broad diagnostics. Keep paths, drive letters, mappings, and credentials local. Schedule any required reboot or network interruption, and make any old-backup removal target concrete before deletion. The repository coordinates files; it does not provide remote execution on the PC.
 
 ## Decisions still needed
 
-- Repair the existing destination or migrate to a Time Machine-aware SMB server.
+- Apply the recommended OMV native Time Machine destination to the exact local storage/host configuration.
 - Storage capacity, ownership, physical-device contention, and preservation of existing history.
 - Any maintenance window needed for deployment.
 - Completed-backup freshness threshold and notification method.

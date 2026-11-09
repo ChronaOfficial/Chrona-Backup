@@ -1,6 +1,43 @@
 # Implementation and validation plan
 
-Documentation review: 2026-10-25. This is a proposed implementation and acceptance plan, not a deployed or validated backup service. The Windows assessment remains outstanding.
+Documentation review: 2026-11-09. This is a proposed implementation and acceptance plan, not a deployed or validated backup service. The recommended implementation is now OpenMediaVault 8 in a Windows-hosted VM. Exact host deployment inputs remain outstanding.
+
+## Recommended implementation: established NAS software
+
+Use OpenMediaVault (OMV) 8, which is based on Debian 13 and uses Debian's maintained Samba packages. Its SMB share interface includes Time Machine support, and its generated configuration loads `fruit` and `streams_xattr` and enables the Time Machine capability. This supplies an existing server implementation and management interface; the project does not need a new backup engine or a custom NAS administration application.
+
+Sources: [OMV 8 release and installation route](https://www.openmediavault.org/?p=4002), [official SMB interface source](https://github.com/openmediavault/openmediavault/blob/master/deb/openmediavault/workbench/src/app/pages/services/smb/smb-share-form-page.component.ts), [official Samba configuration template](https://github.com/openmediavault/openmediavault/blob/master/deb/openmediavault/srv/salt/omv/deploy/samba/files/shares.j2), [OMV Samba package ownership](https://docs.openmediavault.org/en/8.x/administration/services/samba.html).
+
+The physical HDD stays installed in Windows. Windows stores a separate data VHDX file there; OMV owns the Linux filesystem inside that virtual disk. The Mac selects the OMV network share directly in Time Machine, and Time Machine creates/manages its own backup image. Do not re-export the existing Windows SMB share through OMV. The VM still depends on Windows uptime and the physical drive; this uses an established implementation of native Time Machine server features, not a guarantee that every previous failure has been diagnosed or eliminated.
+
+### Why change the current arrangement
+
+Connecting through Finder with Command-K is normal. Sparsebundles are also normal for network Time Machine. The distinction is between selecting a supported network destination in Time Machine and manually attaching an image and selecting that virtual volume as a local destination. In the latter case, the prior share mount and image attachment are external prerequisites (an engineering inference). Apple's network-destination workflow manages reconnection itself. Ordinary file copies do not establish support for the additional Time Machine server capabilities. Research does not prove that this distinction caused a particular stalled backup, and CPU architecture alone is not evidence of the cause.
+
+[Apple network-destination behavior](https://support.apple.com/en-nz/guide/mac-help/mh15139/mac), [Apple disk-image documentation](https://support.apple.com/guide/disk-utility/create-a-disk-image-dskutl11888/22.7/mac/27).
+
+### The requested persistent connection
+
+Existing Mac software such as [AutoMounter](https://www.pixeleyes.co.nz/automounter/) can automatically mount/re-mount network shares, including after switching between Ethernet and Wi-Fi. It addresses share availability, not proof that Time Machine has a valid completed backup. It does not turn ordinary Windows sharing into a native Time Machine server or guarantee a writable image survives an interrupted session. It is therefore an optional mounting convenience, not the proposed replacement backup system.
+
+Use native Time Machine scheduling/reconnection and Samba's documented durable-handle support as the foundation. Keep the host available with supported power/update settings, and use completed-backup monitoring to catch failures or stale protection. Do not create a custom network transport, constantly remount an in-use image, force-stop backups on an unchanged progress counter, or equate a periodic ping with a safe storage session. No sleep, disk-spin-down, or network-power cause has been established. The server needs no GPU; the proposed small VM resource budget remains an estimate, not a claim of measured stream coexistence.
+
+### Concrete Windows-side deployment sequence
+
+This is the implementation handoff. Do not make an open-ended troubleshooting exercise a prerequisite. Confirm only what the installation needs before changing the host:
+
+1. Identify the user-selected Windows volume and current available capacity; keep the path and drive letter private. Establish the replacement size and space for existing history. Do not infer a physical disk from a reported nominal capacity. The user has allowed replacement of the old backup if necessary, but the exact deletion target, scope, and capacity plan must be concrete before any deletion. No deletion is part of VM installation.
+2. Establish whether Hyper-V and a suitable LAN virtual switch already exist. Reuse an appropriate switch. If enabling Hyper-V or creating/changing a switch is necessary, schedule the required Windows restart/network interruption with the user; preserve the live stream until then.
+3. Download the current OMV 8 AMD64 installer from the project's official download route. Create a small Generation 2 VM, provisionally 2 vCPUs, 2-4 GiB RAM, and a new 32 GiB system VHDX. These are initial allocations, not measured guarantees. Keep Secure Boot enabled with the Microsoft UEFI Certificate Authority template where supported by the selected installer. Do not disable host security to work around an installation issue.
+4. **Attach only the new VM system disk during ISO installation.** OMV's installer consumes its selected disk and may automatically select the first available one. Do not attach the data VHDX, physical Windows disks, or existing backup image at this stage. Boot only the VM from the ISO; do not reboot the Windows PC into it. After installation, eject the ISO from the VM and update OMV's packages through its supported interface.
+5. Create and attach a separate data VHDX on the intended internal HDD, sized from the capacity plan. Create a Linux filesystem on this new virtual disk through OMV. Formatting applies only to this newly created virtual disk, never the host HDD. Prefer reserved capacity when feasible; if using dynamic allocation, separately monitor host free space because its maximum is not reserved.
+6. In OMV, create a dedicated authenticated backup account and shared folder with read/write permissions. Enable SMB and enable Time Machine support on that share. Configure discovery and restrict access to the LAN. Retain safe write and SMB security settings. Change default administrative credentials and keep all secrets outside Git. Use OMV's interface rather than editing its generated smb.conf directly.
+7. On the Mac, use System Settings -> General -> Time Machine -> Add Backup Disk and select the OMV **network share**. Supply the new share credentials, choose backup encryption, and store its recovery password independently. Let Time Machine create the image. Do not reuse or manually open the old sparsebundle as the new destination, and do not remove the old destination until the transition is deliberate.
+8. Configure VM automatic startup and graceful shutdown. Keep the host awake during backup availability, use a deliberate update window, and run the first complete Time Machine backup. Establish automatic incrementals, a synthetic-file restore, and completed-backup staleness alerts. The full recovery claim still requires the migration gate below, but speculative benchmarks are not a prerequisite to beginning deployment.
+
+Installer source: [OMV ISO instructions and disk selection warning](https://docs.openmediavault.org/en/8.x/installation/via_iso.html). Host sources: [Microsoft Hyper-V virtual disks](https://learn.microsoft.com/en-us/windows-server/administration/performance-tuning/role/hyper-v-server/storage-io-performance), [Linux on Hyper-V best practices](https://learn.microsoft.com/en-us/windows-server/virtualization/hyper-v/best-practices-for-running-linux-on-hyper-v), [VM firmware configuration](https://learn.microsoft.com/en-us/powershell/module/hyper-v/set-vmfirmware).
+
+Only deployment preparation is complete. No VM, share, replacement disk, or completed backup exists as a result of this research. The Windows-side task must perform the actual installation locally; Git does not provide remote control.
 
 ## Required outcome
 
