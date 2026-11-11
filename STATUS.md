@@ -2,7 +2,7 @@
 
 ## Current phase
 
-The bounded reuse assessment found a standard Apple sparsebundle. In-place OMV hosting is technically plausible through exclusive disk ownership, but continued backups and preservation of history remain untested; this is not a confirmed fix. See docs/PLAN.md for the evidence and storage implications. The user explicitly requested no stream interruption or existing-backup changes. No server was installed and no host configuration changed.
+The user requested a targeted comparison of the older and newer laptop destinations. The read-only comparison is complete; it did not establish a Windows configuration cause for the failed backups. The older laptop's backup is user-reported as running, not yet confirmed completed. The earlier OMV reuse proposal remains conditional. No server was installed, no sharing or backup setting changed, and no stream or backup was interrupted.
 
 ## Completed
 
@@ -35,9 +35,16 @@ Two independent reviews checked the updated requirements against the source docu
 - Subsequently, the user authorized only a small outer-container metadata check. It found one standard sparsebundle; it did not mount the archive or read personal backup contents. The collector passed a syntax check and one synthetic allowlist test before that one execution. Details and measurements remain local.
 - Source review established an in-place hosting candidate using an existing NTFS filesystem with exclusive VM disk ownership. Actual Time Machine continuation, stream-metadata compatibility, backup integrity, and restoration remain untested. Diagnostics stopped at the requested bounded check.
 
+2026-11-11, Windows side:
+
+- Compared only the two user-selected folders, exact-path SMB share matches, anonymized top-level permission structures, and filesystem/capacity metadata. No backup contents, file listings, account names, raw logs, or client-session identifiers were collected.
+- Core per-share settings matched. A folder-visibility setting and permission structure differed; neither establishes the failure cause. Existing archive-child permissions and Mac-side behavior were outside this check.
+- Confirmed enum meanings from the installed PowerShell module and Microsoft documentation. Exact configuration and capacity measurements remain in ignored local notes, not this public handoff.
+- The older backup's eventual completion remains to be reported by the user. A running backup is not treated as a verified recovery point. No additional container inspection, benchmark, repair, or configuration test ran.
+
 ## Next action
 
-Continue from `codex/windows-omv-setup`. Present the exclusive-disk hosting option and a protected-copy validation option, then agree storage ownership, rollback protection, and a maintenance window before any writable test. Do not continue broad diagnostics or infer permission to mount, repair, rename, or take over the existing disk. No fresh archive should be created by assumption. The repository coordinates files; it does not provide remote execution on either computer.
+Continue from `codex/windows-omv-setup`. Use the bounded comparison to avoid assuming that replacing the server is already proven necessary. First distinguish a user-confirmed successful older backup from mere progress, and use the newer backup's failure stage or sanitized error wording to select any next narrow check. No setting change or test is authorized by the comparison. Existing OMV storage, rollback, and maintenance requirements still apply. Do not restart broad diagnostics or infer permission to inspect, repair, rename, or take over backup storage.
 
 ## Decisions still needed
 

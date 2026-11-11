@@ -2,6 +2,8 @@
 
 ## Latest Windows checkpoint
 
+2026-11-11: the user requested a targeted, read-only configuration comparison with an older laptop destination. Core share settings matched, and the limited differences do not establish the cause of failed backups. The older backup was reported as running, not completed. Detailed configuration stays local. No settings, backup contents, or running workloads changed; see STATUS.md for the narrow next action.
+
 See `codex/windows-omv-setup` and the bounded reuse assessment in docs/PLAN.md. One explicitly approved outer-container check found a standard sparsebundle. Exclusive VM ownership of the existing NTFS disk is a technically plausible in-place hosting option, but requires a revised storage layout and maintenance approval; it is not a verified fix or an authorized disk handoff. Preserve the history and do not create a fresh archive by assumption. No installation, image mount, backup modification, or stream interruption occurred. The user requested that diagnostics stay bounded; do not restart a broad investigation. Detailed host and storage findings remain local and must not be copied into Git.
 
 ## Goal and working arrangement
