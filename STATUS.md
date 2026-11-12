@@ -2,7 +2,7 @@
 
 ## Current phase
 
-The user requested a targeted comparison of the older and newer laptop destinations. The read-only comparison is complete; it did not establish a Windows configuration cause for the failed backups. The older laptop's backup is user-reported as running, not yet confirmed completed. The earlier OMV reuse proposal remains conditional. No server was installed, no sharing or backup setting changed, and no stream or backup was interrupted.
+The older laptop's backup is now user-reported as completed. The newer image eventually connected and is user-reported as attempting a backup; completion is unknown. The targeted configuration comparison and subsequent primary-source research did not establish a failure cause. Leave this attempt running before considering further checks. The earlier OMV reuse proposal remains conditional. No server was installed, no sharing or backup setting changed by this project, and no stream or backup was interrupted.
 
 ## Completed
 
@@ -42,9 +42,17 @@ Two independent reviews checked the updated requirements against the source docu
 - Confirmed enum meanings from the installed PowerShell module and Microsoft documentation. Exact configuration and capacity measurements remain in ignored local notes, not this public handoff.
 - The older backup's eventual completion remains to be reported by the user. A running backup is not treated as a verified recovery point. No additional container inspection, benchmark, repair, or configuration test ran.
 
+2026-11-12, Windows side:
+
+- User reports: the older backup completed; the newer image eventually connected and began attempting a backup. The user also reports updating the newer client and keeping it awake. These are observations of behavior, not an independently verified completion timestamp or a proven fix.
+- Documentation research, including the explicitly requested helper agent, confirmed that sparsebundle is normal for network Time Machine backups. The earlier metadata check already established the newer container type. No further image inspection was performed.
+- Hypotheses remain unproven: slow storage/metadata work or connection behavior could explain a delayed start. Available CPU headroom does not distinguish those causes. Neither an update nor sleep prevention establishes that the regression is fixed.
+- In response to the user's PC-sleep question, read only the active power plan and its sleep/hibernate timeout fields. Exact settings remain local. No power setting, backup, share, network, or stream was changed.
+- No backup completion or restoration was independently verified, and no performance test ran. Research sources and their limits are recorded in docs/PLAN.md.
+
 ## Next action
 
-Continue from `codex/windows-omv-setup`. Use the bounded comparison to avoid assuming that replacing the server is already proven necessary. First distinguish a user-confirmed successful older backup from mere progress, and use the newer backup's failure stage or sanitized error wording to select any next narrow check. No setting change or test is authorized by the comparison. Existing OMV storage, rollback, and maintenance requirements still apply. Do not restart broad diagnostics or infer permission to inspect, repair, rename, or take over backup storage.
+Continue from `codex/windows-omv-setup`. Let the newer backup attempt finish without additional live diagnostics or changes. A user-confirmed completed-backup timestamp, followed by successful automatic incrementals, is the next useful evidence; restore validation remains outstanding. If it fails, use only sanitized error wording and whether failure occurred at share connection, image attachment, or backup writing to scope the next check. Existing OMV storage, rollback, and maintenance requirements still apply. Do not restart broad diagnostics or infer permission to inspect, repair, rename, or take over backup storage.
 
 ## Decisions still needed
 
